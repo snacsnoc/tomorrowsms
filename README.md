@@ -23,7 +23,7 @@ git clone https://github.com/snacsnoc/tomorrowsms.git
 ```
 2. Change into the project directory:
 ```bash
-cd weather-forecast-sms-bot
+cd tomorrowsms
 ```
 3. Install the required dependencies:
 ```bash
