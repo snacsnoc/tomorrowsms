@@ -48,10 +48,15 @@ def get_weather_description(weather_code):
 
 
 def get_weather(location):
+    # Check if the location is a postal code, and shorten it if it's longer than 3 characters
+    if re.match(r'^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$', location):
+        location = location[:3]
+
     url = f"https://api.tomorrow.io/v4/weather/forecast?location={location}&fields=core&timesteps=1d&units=metric&apikey={TOMORROW_IO_API_KEY}"
     headers = {"accept": "application/json"}
     response = requests.get(url, headers=headers)
     data = response.json()
+
     if response.status_code == 200:
         daily_forecast = data["timelines"]["daily"]
         forecast = ""
@@ -71,7 +76,7 @@ def get_weather(location):
         return forecast
 
     else:
-        return "Error: Unable to fetch weather data. Please check your input and try again."
+        return "Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J) or city name (eg Vancouver)."
 
 
 """
@@ -101,8 +106,7 @@ def incoming_sms():
         except Exception as e:
             print(e)
             resp.message(
-                "Sorry, we couldn't process your request. Please make sure you provided a valid postal code or city name.")
-
+                "Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J) or city name (eg Vancouver).")
     return str(resp)
 
 
