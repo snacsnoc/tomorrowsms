@@ -11,7 +11,7 @@ TOMORROW_IO_API_KEY = os.getenv("API_KEY")
 
 # Remove whitespace and any non alpha-numeric characters
 def sanitize_input(input_text):
-    sanitized_text = re.sub(r'\W+', '', input_text)
+    sanitized_text = re.sub(r"\W+", "", input_text)
     return sanitized_text.strip()
 
 
@@ -46,12 +46,14 @@ def get_weather_description(weather_code):
 
     return weather_descriptions.get(weather_code, "Unknown")
 
+
 def validate_postal_code(postal_code):
     # Check if the postal code is valid
-    if re.match(r'^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$', postal_code):
+    if re.match(r"^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$", postal_code):
         return True
     else:
         return False
+
 
 def get_weather(location):
     location = location.upper()
@@ -86,11 +88,12 @@ def get_weather(location):
  Performs a weather lookup from the message body
  Reply with forecast for the next two days
 """
+
+
 @app.route("/sms", methods=["GET", "POST"])
 def incoming_sms():
     body = request.values.get("Body", None)
     sanitized_body = sanitize_input(body)
-
 
     resp = MessagingResponse()
 
@@ -111,7 +114,8 @@ def incoming_sms():
         except Exception as e:
             print(e)
             resp.message(
-                "Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J) or city name (eg Vancouver).")
+                "Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J) or city name (eg Vancouver)."
+            )
     return str(resp)
 
 
