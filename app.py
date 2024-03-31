@@ -46,17 +46,19 @@ def get_weather_description(weather_code):
 
     return weather_descriptions.get(weather_code, "Unknown")
 
+def validate_postal_code(postal_code):
+    # Check if the postal code is valid
+    if re.match(r'^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$', postal_code):
+        return True
+    else:
+        return False
 
 def get_weather(location):
-    # Check if the location is a postal code, and shorten it if it's longer than 3 characters
-    if re.match(r'^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$', location):
-        location = location[:3]
-
+    location = location.upper()
     url = f"https://api.tomorrow.io/v4/weather/forecast?location={location}&fields=core&timesteps=1d&units=metric&apikey={TOMORROW_IO_API_KEY}"
     headers = {"accept": "application/json"}
     response = requests.get(url, headers=headers)
     data = response.json()
-
     if response.status_code == 200:
         daily_forecast = data["timelines"]["daily"]
         forecast = ""
@@ -84,14 +86,17 @@ def get_weather(location):
  Performs a weather lookup from the message body
  Reply with forecast for the next two days
 """
-
-
 @app.route("/sms", methods=["GET", "POST"])
 def incoming_sms():
     body = request.values.get("Body", None)
     sanitized_body = sanitize_input(body)
 
+
     resp = MessagingResponse()
+
+    if not validate_postal_code(sanitized_body):
+        resp.message("Please send a postal code")
+        return
 
     if sanitized_body.lower() in ["hello", "hi", "help"]:
         resp.message(
