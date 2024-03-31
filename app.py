@@ -56,8 +56,8 @@ def validate_postal_code(postal_code):
 
 
 def get_weather(location):
-    location = location.upper()
-    url = f"https://api.tomorrow.io/v4/weather/forecast?location={location}&fields=core&timesteps=1d&units=metric&apikey={TOMORROW_IO_API_KEY}"
+    location_name = location.upper()
+    url = f"https://api.tomorrow.io/v4/weather/forecast?location={location_name}&fields=core&timesteps=1d&units=metric&apikey={TOMORROW_IO_API_KEY}"
     headers = {"accept": "application/json"}
     response = requests.get(url, headers=headers)
     data = response.json()
@@ -114,7 +114,7 @@ def incoming_sms():
         except Exception as e:
             print(e)
             resp.message(
-                "Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J) or city name (eg Vancouver)."
+                f"Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J) {e}"
             )
     return str(resp)
 
