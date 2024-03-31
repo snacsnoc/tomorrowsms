@@ -65,7 +65,7 @@ def get_weather(location):
         daily_forecast = data["timelines"]["daily"]
         forecast = ""
 
-        for day in daily_forecast[:3]:  # Get the forecast for the next three days
+        for day in daily_forecast[1:4]:  # Get the forecast for the next three days
             weather_code = day["values"]["weatherCodeMin"]
             weather_description = get_weather_description(str(weather_code))
             date = day["time"][:10]
@@ -80,7 +80,7 @@ def get_weather(location):
         return forecast
 
     else:
-        return "Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J) or city name (eg Vancouver)."
+        return "Sorry, we couldn't process your request. Please make sure you provided a valid postal code (eg V3J5A2)"
 
 
 """
