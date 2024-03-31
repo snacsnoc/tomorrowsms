@@ -1,6 +1,6 @@
 # tomorrowsms - Weather Forecast SMS Bot
 
-A simple SMS bot built with Flask and Twilio that sends weather forecasts for the next two days based on the user's location. 
+A simple SMS bot built with Flask and Twilio that sends weather forecasts for the next three days based on the user's location. 
 Users can provide their location as a postal code, city name, or latitude and longitude.
 
 ## Features

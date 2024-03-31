@@ -65,7 +65,7 @@ def get_weather(location):
         daily_forecast = data["timelines"]["daily"]
         forecast = ""
 
-        for day in daily_forecast[:2]:  # Get the forecast for the next two days
+        for day in daily_forecast[:3]:  # Get the forecast for the next three days
             weather_code = day["values"]["weatherCodeMin"]
             weather_description = get_weather_description(str(weather_code))
             date = day["time"][:10]
